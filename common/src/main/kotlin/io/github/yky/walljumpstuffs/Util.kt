@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package io.github.yky.walljumpstuffs
 
 import net.minecraft.resources.ResourceLocation
