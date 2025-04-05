@@ -25,9 +25,10 @@ abstract class ClientPlayerEntityStepUpMixin extends AbstractClientPlayer implem
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     @Shadow
     public abstract boolean isShiftKeyDown();
-    
+
     @Unique
-    private boolean wallJumpStuffs$isStepUpEnable(){
+    private boolean wallJumpStuffs$isStepUpEnable() {
+        if (!Configs.stepUpConfig.enableStepUp) return false;
         return !isShiftKeyDown() || Configs.stepUpConfig.enableStepUpWhenSneaking;
     }
 
