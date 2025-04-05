@@ -7,13 +7,11 @@
   "mixins": [
     "AmphibiousNodeEvaluatorStepUpMixin",
     "EntityStepUpMixin",
-    "LivingEntityStepUpMixin",
     "MoveControlStepUpMixin",
     "PlayerStepUpMixin",
     "WalkNodeEvaluatorStepUpMixin"
   ],
   "client": [
-    "client.ClientPlayerEntityIsKeyDownMixin",
     "client.ClientPlayerEntityNetworkSendMixin"
   ],
   "server": [

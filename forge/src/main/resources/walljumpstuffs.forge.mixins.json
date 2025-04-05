@@ -12,7 +12,6 @@
     "WalkNodeEvaluatorStepUpForgeMixin"
   ],
   "client": [
-    "client.ClientPlayerEntityIsKeyDownMixin",
     "client.ClientPlayerEntityNetworkSendMixin"
   ],
   "server": [

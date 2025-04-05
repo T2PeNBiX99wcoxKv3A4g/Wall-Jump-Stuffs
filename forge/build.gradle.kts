@@ -64,6 +64,7 @@ sourceSets.main.get().resources { srcDir("src/generated/resources") }
 dependencies {
     modApi(libs.kff)
     modApi(libs.fzzyConfigForge)
+    compileOnly(libs.kff) // ??
     compileOnly(project(":common"))
     annotationProcessor(variantOf(libs.mixin) { classifier("processor") })
 }

@@ -6,10 +6,10 @@ import org.lwjgl.glfw.GLFW
 
 object Keybindings {
     @JvmField
-    var CLING = KeyMapping(
-        "key.walljumpstuff.cling",
+    val CLING = KeyMapping(
+        "key.walljumpstuffs.cling",
         InputConstants.Type.KEYSYM,
         GLFW.GLFW_KEY_LEFT_SHIFT,
-        "category.walljumpstuff.binds"
+        "category.walljumpstuffs.binds"
     )
 }

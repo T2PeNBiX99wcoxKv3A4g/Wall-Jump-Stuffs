@@ -10,6 +10,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -24,17 +25,22 @@ abstract class ClientPlayerEntityStepUpMixin extends AbstractClientPlayer implem
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     @Shadow
     public abstract boolean isShiftKeyDown();
+    
+    @Unique
+    private boolean wallJumpStuffs$isStepUpEnable(){
+        return !isShiftKeyDown() || Configs.stepUpConfig.enableStepUpWhenSneaking;
+    }
 
     // Step up, should apply before auto jump thereby "disabling" auto jump
     @Inject(method = "move", at = @At(value = "HEAD"))
     private void enableStepUpInjectFirst(MoverType movementType, Vec3 movement, CallbackInfo ci) {
         if (!Configs.stepUpConfig.enableStepUp) return;
-        this.wallJumpStuffs$setEnableChangeMaxUpStep(!isShiftKeyDown() || Configs.stepUpConfig.enableStepUpWhenSneaking);
+        this.wallJumpStuffs$setEnableChangeMaxUpStep(wallJumpStuffs$isStepUpEnable());
     }
 
     @Inject(method = "canAutoJump", at = @At(value = "HEAD"), cancellable = true)
     private void disableAutoJump(CallbackInfoReturnable<Boolean> cir) {
-        if (Configs.stepUpConfig.enableStepUp && (!isShiftKeyDown() || Configs.stepUpConfig.enableStepUpWhenSneaking)) {
+        if (Configs.stepUpConfig.enableStepUp && wallJumpStuffs$isStepUpEnable()) {
             cir.setReturnValue(false);
             cir.cancel();
         }

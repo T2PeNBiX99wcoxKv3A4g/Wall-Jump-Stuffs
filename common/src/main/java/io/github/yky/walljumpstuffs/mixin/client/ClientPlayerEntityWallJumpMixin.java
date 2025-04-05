@@ -1,11 +1,12 @@
 package io.github.yky.walljumpstuffs.mixin.client;
 
 import com.mojang.authlib.GameProfile;
-import io.github.yky.walljumpstuffs.client.ClientPlayerEntityIsKeyDownInterface;
 import io.github.yky.walljumpstuffs.client.ClientPlayerEntityNetworkHandleInterface;
+import io.github.yky.walljumpstuffs.client.helper.Keybindings;
 import io.github.yky.walljumpstuffs.config.Configs;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,12 +28,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Mixin(LocalPlayer.class)
-abstract class ClientPlayerEntityWallJumpMixin extends AbstractClientPlayer implements ClientPlayerEntityNetworkHandleInterface, ClientPlayerEntityIsKeyDownInterface {
+abstract class ClientPlayerEntityWallJumpMixin extends AbstractClientPlayer implements ClientPlayerEntityNetworkHandleInterface {
+    ClientPlayerEntityWallJumpMixin(ClientLevel world, GameProfile profile, ProfilePublicKey ignoredPlayerPublicKey) {
+        super(world, profile);
+    }
+
     @Shadow
     public abstract boolean isHandsBusy();
 
     @Shadow
     public abstract float getViewYRot(float tickDelta);
+
+    @Shadow
+    public Input input;
 
     @Unique
     public int wallJumpStuffs$ticksWallClinged;
@@ -55,8 +63,9 @@ abstract class ClientPlayerEntityWallJumpMixin extends AbstractClientPlayer impl
         return level().noCollision(this, box) && !level().containsAnyLiquid(box);
     }
 
-    public ClientPlayerEntityWallJumpMixin(ClientLevel world, GameProfile profile, ProfilePublicKey ignoredPlayerPublicKey) {
-        super(world, profile);
+    @Unique
+    private boolean wallJumpStuffs$isKeyDown() {
+        return Configs.wallJumpConfig.enableKeybind ? Keybindings.CLING.isDown() : this.input.shiftKeyDown;
     }
 
     @Inject(method = "aiStep", at = @At("TAIL"))
