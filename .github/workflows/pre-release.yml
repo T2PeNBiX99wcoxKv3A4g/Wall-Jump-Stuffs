@@ -102,7 +102,7 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "Artifacts/*.jar"
+          artifacts: "Artifacts/*/build/libs/*.jar"
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ needs.build.outputs.new_tag }}
           name: Pre Release ${{ needs.build.outputs.new_tag }}
