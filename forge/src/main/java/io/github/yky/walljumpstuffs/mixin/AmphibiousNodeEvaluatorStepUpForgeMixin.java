@@ -1,14 +1,15 @@
 package io.github.yky.walljumpstuffs.mixin;
 
 import io.github.yky.walljumpstuffs.Utils;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.pathfinder.AmphibiousNodeEvaluator;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(Entity.class)
-abstract class EntityStepUpMixin {
+@Mixin(AmphibiousNodeEvaluator.class)
+abstract class AmphibiousNodeEvaluatorStepUpForgeMixin {
     @Unique
     public boolean wallJumpStuffs$isEnableChangeMaxUpStep;
 
@@ -18,8 +19,8 @@ abstract class EntityStepUpMixin {
         wallJumpStuffs$isEnableChangeMaxUpStep = value;
     }
 
-    @Redirect(method = "collide", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;maxUpStep()F"), order = Integer.MIN_VALUE)
-    private float replaceMaxUpStep(Entity instance) {
-        return Utils.replaceMaxUpStep(instance, wallJumpStuffs$isEnableChangeMaxUpStep);
+    @Redirect(method = "getNeighbors", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Mob;getStepHeight()F", remap = false))
+    private float replaceMaxUpStep(Mob instance) {
+        return Utils.replaceGetStepHeight(instance, wallJumpStuffs$isEnableChangeMaxUpStep);
     }
 }

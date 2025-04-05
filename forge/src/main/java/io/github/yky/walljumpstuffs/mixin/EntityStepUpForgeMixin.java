@@ -1,6 +1,6 @@
 package io.github.yky.walljumpstuffs.mixin;
 
-import io.github.yky.walljumpstuffs.config.Configs;
+import io.github.yky.walljumpstuffs.Utils;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -18,9 +18,10 @@ abstract class EntityStepUpForgeMixin {
         wallJumpStuffs$isEnableChangeMaxUpStep = value;
     }
 
+    // https://github.com/Shadows-of-Fire/Apotheosis/blob/c502c2a6c15d6a6ff9728acadccc85172f58cfe5/src/main/java/shadows/apotheosis/mixin/IForgeEntityMixin.java#L25
+    // Very cool, I think the only thing I can do is redirect all of "getStepHeight" method to bypass the shit
     @Redirect(method = "collide", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getStepHeight()F", remap = false))
-    private float collideReplaceMaxUpStep(Entity instance) {
-        if (!wallJumpStuffs$isEnableChangeMaxUpStep) return instance.getStepHeight();
-        return Configs.stepUpConfig.stepUpHeight;
+    private float replaceMaxUpStep(Entity instance) {
+        return Utils.replaceGetStepHeight(instance, wallJumpStuffs$isEnableChangeMaxUpStep);
     }
 }
