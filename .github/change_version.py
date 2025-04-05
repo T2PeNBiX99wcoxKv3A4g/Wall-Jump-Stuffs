@@ -25,7 +25,7 @@ if __name__ == "__main__":
                 old_text += line
                 continue
 
-            old_version = line[start + 12:-1]
+            old_version = line[start + (len(propertieName) + 1):-1]
             print(f'Old version: {old_version}, New version: {new_version}')
             old_text += line
 
