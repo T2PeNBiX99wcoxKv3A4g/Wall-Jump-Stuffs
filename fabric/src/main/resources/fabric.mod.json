@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": [
+    "Genandnic",
+    "Liquidwarp",
+    "AzureDoomC",
+    "spoorn",
+    "${mod_author}"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "${license}",
+  "icon": "assets/${mod_id}/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "io.github.yky.walljumpstuffs.client.WallJumpStuffsClientKt::init"
+      }
+    ],
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "io.github.yky.walljumpstuffs.WallJumpStuffsKt::init"
+      }
+    ]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json",
+    "${mod_id}.fabric.mixins.json"
+  ],
+  "accessWidener": "${mod_id}.aw",
+  "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=${java_version}",
+    "fabric-language-kotlin": ">=${fabric_kotlin_loader_version}",
+    "fzzy_config": ">=${fzzy_config_fabric_version}"
+  }
+}
+  
